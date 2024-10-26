@@ -135,3 +135,5 @@ CREATE TABLE PatientService (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),  
     FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID)  
 );
+
+--hii
