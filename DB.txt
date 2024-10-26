@@ -1,0 +1,130 @@
+CREATE DATABASE HospitalManagement;
+GO
+
+USE HospitalManagement;
+GO
+
+-- Table: Department
+CREATE TABLE Department (
+    DepartmentId INT PRIMARY KEY,
+    DepartmentName VARCHAR(255) NOT NULL
+);
+
+-- Table: Role
+CREATE TABLE Role (
+    RoleId INT PRIMARY KEY,
+    RoleName VARCHAR(255) NOT NULL
+);
+
+-- Table: User
+CREATE TABLE [User] (
+    UserId INT PRIMARY KEY,
+    Username VARCHAR(255) NOT NULL,
+    Gender BIT,
+    Phone VARCHAR(20),
+    Email VARCHAR(255),
+    PasswordHash VARCHAR(255),
+    IsAvailable BIT,
+    CreatedDate DATETIME,
+    DepartmentId INT FOREIGN KEY REFERENCES Department(DepartmentId),
+    RoleId INT FOREIGN KEY REFERENCES Role(RoleId),
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+-- Table: Room
+CREATE TABLE Room (
+    Room_id INT PRIMARY KEY,
+    RoomName VARCHAR(255),
+    Is_available BIT,
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+-- Table: Patient
+CREATE TABLE Patient (
+    PatientId INT PRIMARY KEY,
+    PatientName VARCHAR(255),
+    DateOfBirth DATETIME,
+    Gender VARCHAR(10),
+    Phone VARCHAR(20),
+    RoomId INT FOREIGN KEY REFERENCES Room(Room_id),
+    HealthInsurance VARCHAR(255),
+    HealthCondition VARCHAR(255),
+    IsDelete BIT,
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+-- Table: HospitalService
+CREATE TABLE HospitalService (
+    ServiceID INT PRIMARY KEY,
+    ServiceName VARCHAR(255),
+    ServiceFee FLOAT,
+    PatientId INT FOREIGN KEY REFERENCES Patient(PatientId), -- Foreign key added
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+-- Table: Payment
+CREATE TABLE Payment (
+    PaymentId INT PRIMARY KEY,
+    Amount FLOAT,
+    PatientId INT,
+    TransactionTime DATETIME,
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME,
+    FOREIGN KEY (PatientId) REFERENCES Patient(PatientId) -- Foreign key added
+);
+
+-- Table: MedicalRecord
+CREATE TABLE MedicalRecord (
+    MedicalRecordId INT PRIMARY KEY,
+    Detail TEXT,
+    PatientId INT FOREIGN KEY REFERENCES Patient(PatientId),
+    CreatedAt DATETIME,
+    UpdateAt DATETIME,
+    CreatedBy INT,
+    UpdateBy INT
+);
+
+-- Table: WorkSchedule
+CREATE TABLE WorkSchedule (
+    ScheduleId INT PRIMARY KEY,
+    TimeSlot DATETIME NOT NULL,
+    PatientID INT FOREIGN KEY REFERENCES Patient(PatientId),
+    UserID INT FOREIGN KEY REFERENCES [User](UserId),
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME
+);
+
+-- Table: TreatmentPlan
+CREATE TABLE TreatmentPlan (
+    PatientID INT,
+    MedicineSection VARCHAR(255),
+    TreatmentMethodSection VARCHAR(255),
+    DoctorInCharge VARCHAR(255),
+    TreatmentTime DATETIME,
+    UserID INT,
+    ServiceID INT,
+    created_by INT,
+    update_by INT,
+    created_at DATETIME,
+    update_at DATETIME,
+    PRIMARY KEY (PatientID, MedicineSection, TreatmentTime),
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientId), -- Foreign key added
+    FOREIGN KEY (UserID) REFERENCES [User](UserId), -- Foreign key added
+    FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID) -- Foreign key added
+);
