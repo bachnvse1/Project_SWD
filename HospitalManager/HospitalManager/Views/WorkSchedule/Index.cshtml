@@ -1,0 +1,38 @@
+﻿@using HospitalLibrary.DataAccess
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Work Schedule List";
+    var workSchedules = ViewBag.WorkSchedules as List<WorkSchedule>;
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Schedule ID</th>
+            <th>Time Slot</th>
+            <th>Patient ID</th>
+            <th>User ID</th>
+            <th>Created By</th>
+            <th>Updated By</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var schedule in workSchedules)
+        {
+            <tr>
+                <td>@schedule.ScheduleId</td>
+                <td>@schedule.TimeSlot.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@schedule.PatientId</td>
+                <td>@schedule.UserId</td>
+                <td>@schedule.CreatedBy</td>
+                <td>@schedule.UpdateBy</td>
+                <td>@schedule.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                <td>@schedule.UpdateAt?.ToString("dd/MM/yyyy")</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,8 +1,70 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="~/css/main.css">
+</head>
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Kans</h1>
+            <p>Hospital Management System</p>
+        </div>
+        <div class="user-info">
+            <span>Marvin McKinney</span>
+            <span class="user-icon">M</span>
+        </div>
+    </div>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+    <div class="sidebar">
+        <button class="add-doctor-btn">+</button>
+        <ul>
+            <li>Users</li>
+            <li><a asp-controller="Receptionist" asp-action="Index">Receptionist</a></li>
+            <li><a asp-controller="WorkSchedule" asp-action="Index">Create treatment</a></li>
+            <li>Hospitals</li>
+            <li>Notice</li>
+            <li><a asp-controller="WorkSchedule" asp-action="Index">Work Schedule</a></li>
+            <li>Help Center</li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="tabs">
+            <span class="tab active">Doctor</span>
+            <span class="tab">Administration</span>
+            <span class="tab">Accounts</span>
+        </div>
+
+        <div class="table-container">
+            <h2>List of doctors</h2>
+            <p>34 available doctors</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>ID</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Date Added</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><img src="https://i.pravatar.cc/40?img=1" alt="Avatar"> Brooklyn Simmons</td>
+                        <td>87364523</td>
+                        <td>brooklyn@mail.com</td>
+                        <td>(603) 555-0123</td>
+                        <td>21/12/2022</td>
+                        <td><span class="status approved">Approved</span></td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
