@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Hospital Management System</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+    <div class="form-container">
+        <!-- Login Form -->
+        <div class="login-card" id="loginForm">
+            <h2>Welcome to Kans</h2>
+            <p>Please log in to continue</p>
+            <form class="login-form" action="/dashboard" method="POST">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+                <button type="submit">Login</button>
+            </form>
+            <p class="toggle-link">Don’t have an account? <a href="#" onclick="showRegister()">Sign up here</a></p>
+        </div>
+
+        <!-- Register Form -->
+        <div class="register-card" id="registerForm" style="display: none;">
+            <h2>Create an Account</h2>
+            <p>Fill in the details below to create your account</p>
+            <form class="register-form" action="/dashboard" method="POST">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create a password" required>
+
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+
+                <button type="submit">Register</button>
+            </form>
+            <p class="toggle-link">Already have an account? <a href="#" onclick="showLogin()">Log in here</a></p>
+        </div>
+    </div>
+
+    <script>
+        function showRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

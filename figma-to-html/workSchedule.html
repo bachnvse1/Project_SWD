@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work Schedule Allocation</title>
+    <link rel="stylesheet" href="css/workschedule.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Work Schedule Allocation</h1>
+        <p>Assign shifts for doctors and nurses</p>
+    </div>
+
+    <div class="container">
+        <!-- Work Schedule Display Section -->
+        <div class="work-schedule">
+            <h2>Work Schedule</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Day</th>
+                        <th>Time Slot</th>
+                        <th>Room ID</th>
+                        <th>Assigned Doctor</th>
+                        <th>Assigned Nurse</th>
+                    </tr>
+                </thead>
+                <tbody id="schedule-body">
+                    <!-- Example schedule rows -->
+                    <tr>
+                        <td>Monday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-monday-1">Room 101</td>
+                        <td id="doctor-monday-1">Not Assigned</td>
+                        <td id="nurse-monday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Monday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-monday-2">Room 102</td>
+                        <td id="doctor-monday-2">Not Assigned</td>
+                        <td id="nurse-monday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-tuesday-1">Room 103</td>
+                        <td id="doctor-tuesday-1">Not Assigned</td>
+                        <td id="nurse-tuesday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Tuesday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-tuesday-2">Room 104</td>
+                        <td id="doctor-tuesday-2">Not Assigned</td>
+                        <td id="nurse-tuesday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-wednesday-1">Room 105</td>
+                        <td id="doctor-wednesday-1">Not Assigned</td>
+                        <td id="nurse-wednesday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Wednesday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-wednesday-2">Room 106</td>
+                        <td id="doctor-wednesday-2">Not Assigned</td>
+                        <td id="nurse-wednesday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-thursday-1">Room 107</td>
+                        <td id="doctor-thursday-1">Not Assigned</td>
+                        <td id="nurse-thursday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Thursday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-thursday-2">Room 108</td>
+                        <td id="doctor-thursday-2">Not Assigned</td>
+                        <td id="nurse-thursday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-friday-1">Room 109</td>
+                        <td id="doctor-friday-1">Not Assigned</td>
+                        <td id="nurse-friday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Friday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-friday-2">Room 110</td>
+                        <td id="doctor-friday-2">Not Assigned</td>
+                        <td id="nurse-friday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-saturday-1">Room 111</td>
+                        <td id="doctor-saturday-1">Not Assigned</td>
+                        <td id="nurse-saturday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Saturday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-saturday-2">Room 112</td>
+                        <td id="doctor-saturday-2">Not Assigned</td>
+                        <td id="nurse-saturday-2">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>08:00 AM - 04:00 PM</td>
+                        <td id="room-sunday-1">Room 113</td>
+                        <td id="doctor-sunday-1">Not Assigned</td>
+                        <td id="nurse-sunday-1">Not Assigned</td>
+                    </tr>
+                    <tr>
+                        <td>Sunday</td>
+                        <td>04:00 PM - 12:00 AM</td>
+                        <td id="room-sunday-2">Room 114</td>
+                        <td id="doctor-sunday-2">Not Assigned</td>
+                        <td id="nurse-sunday-2">Not Assigned</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Doctor and Nurse Selection Section -->
+        <div class="selection">
+            <h2>Select Staff</h2>
+            <form id="allocation-form">
+                <label for="doctor-id">Select Doctor by ID:</label>
+                <select id="doctor-id">
+                    <option value="">Select a Doctor</option>
+                    <option value="D001">Dr. John Smith (ID: D001)</option>
+                    <option value="D002">Dr. Emily Brown (ID: D002)</option>
+                    <!-- Add more doctors as needed -->
+                </select>
+
+                <label for="nurse-id">Select Nurse by ID:</label>
+                <select id="nurse-id">
+                    <option value="">Select a Nurse</option>
+                    <option value="N001">Nurse Sarah Taylor (ID: N001)</option>
+                    <option value="N002">Nurse Michael Lee (ID: N002)</option>
+                    <!-- Add more nurses as needed -->
+                </select>
+
+                <label for="day-slot">Select Day:</label>
+                <select id="day-slot">
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+
+                <label for="time-slot">Assign to Time Slot:</label>
+                <select id="time-slot">
+                    <option value="1">08:00 AM - 04:00 PM</option>
+                    <option value="2">04:00 PM - 12:00 AM</option>
+                </select>
+
+                <label for="room-id">Select Room ID:</label>
+                <select id="room-id">
+                    <option value="Room 101">Room 101</option>
+                    <option value="Room 102">Room 102</option>
+                    <option value="Room 103">Room 103</option>
+                    <option value="Room 104">Room 104</option>
+                    <option value="Room 105">Room 105</option>
+                    <option value="Room 106">Room 106</option>
+                    <option value="Room 107">Room 107</option>
+                    <option value="Room 108">Room 108</option>
+                    <option value="Room 109">Room 109</option>
+                    <option value="Room 110">Room 110</option>
+                    <option value="Room 111">Room 111</option>
+                    <option value="Room 112">Room 112</option>
+                    <option value="Room 113">Room 113</option>
+                    <option value="Room 114">Room
+                        <option value="Room 114">Room 114</option>
+                    </select>
+    
+                    <button type="button" onclick="assignShift()">Assign Shift</button>
+                </form>
+            </div>
+    
+            <!-- Confirmation Section -->
+            <div class="confirmation">
+                <h2>Confirm Schedule</h2>
+                <button onclick="confirmSchedule()">Confirm Shift Allocations</button>
+                <p id="confirmation-message"></p>
+            </div>
+        </div>
+    
+        <script src="js/schedule.js"></script>
+    </body>
+    </html>
+    
