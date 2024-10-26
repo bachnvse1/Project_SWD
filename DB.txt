@@ -136,4 +136,54 @@ CREATE TABLE PatientService (
     FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID)  
 );
 
---hiihfdg
+-- add data example
+
+INSERT INTO Department (DepartmentId, DepartmentName) VALUES
+    (1, 'Cardiology'),
+    (2, 'Neurology'),
+    (3, 'Pediatrics'),
+    (4, 'Oncology'),
+    (5, 'Radiology');
+
+INSERT INTO Role (RoleId, RoleName) VALUES
+    (1, 'Doctor'),
+    (2, 'Nurse'),
+    (3, 'Admin'),
+    (4, 'Technician'),
+    (5, 'Receptionist');
+
+INSERT INTO [User] (UserId, Username, Gender, Phone, Email, PasswordHash, IsAvailable, CreatedDate, DepartmentId, RoleId, created_by, update_by, created_at, update_at) VALUES
+    (201, 'JohnDoe', 1, '123-456-7890', 'johndoe@mail.com', 'hashedpassword1', 1, '2023-01-15', 1, 1, NULL, NULL, '2023-01-15', NULL),
+    (202, 'JaneSmith', 0, '987-654-3210', 'janesmith@mail.com', 'hashedpassword2', 1, '2023-02-10', 2, 2, NULL, NULL, '2023-02-10', NULL),
+    (203, 'PaulWhite', 1, '555-111-2222', 'paulwhite@mail.com', 'hashedpassword3', 1, '2023-03-20', 3, 3, NULL, NULL, '2023-03-20', NULL),
+    (204, 'EmilyBrown', 0, '555-333-4444', 'emilybrown@mail.com', 'hashedpassword4', 1, '2023-04-05', 4, 4, NULL, NULL, '2023-04-05', NULL),
+    (205, 'MichaelGreen', 1, '555-555-6666', 'michaelgreen@mail.com', 'hashedpassword5', 1, '2023-05-12', 5, 5, NULL, NULL, '2023-05-12', NULL);
+
+INSERT INTO Room (Room_id, RoomName, Is_available, created_by, update_by, created_at, update_at) VALUES
+    (1, 'Room A101', 1, 1, NULL, '2023-01-01', NULL),
+    (2, 'Room B202', 0, 2, 1, '2023-02-15', '2023-03-01'),
+    (3, 'Room C303', 1, 3, NULL, '2023-03-10', NULL),
+    (4, 'Room D404', 1, 2, 3, '2023-04-05', '2023-04-20'),
+    (5, 'Room E505', 0, 1, 2, '2023-05-12', '2023-06-01');
+
+
+INSERT INTO Patient (PatientId, PatientName, DateOfBirth, Gender, Phone, RoomId, HealthInsurance, HealthCondition, IsDelete, created_by, update_by, created_at, update_at) VALUES
+    (101, 'Alice Johnson', '1990-05-20', 'Female', '555-777-8888', 1, '123456789', 'Hypertension', 0, NULL, NULL, '2023-01-01', NULL),
+    (102, 'Bob Williams', '1985-03-15', 'Male', '555-999-0000', 2, '987654321', 'Diabetes', 0, NULL, NULL, '2023-02-15', NULL),
+    (103, 'Carol Taylor', '2000-12-10', 'Female', '555-444-3333', 3, '456789123', 'Asthma', 0, NULL, NULL, '2023-03-20', NULL),
+    (104, 'David Brown', '1975-09-25', 'Male', '555-666-7777', 4, '789123456', 'Heart Disease', 0, NULL, NULL, '2023-04-10', NULL),
+    (105, 'Eve Davis', '1995-08-18', 'Female', '555-222-1111', 5, '321654987', 'Allergy', 0, NULL, NULL, '2023-05-05', NULL);
+
+
+INSERT INTO WorkSchedule (ScheduleId, TimeSlot, PatientId, UserId, created_by, update_by, created_at, update_at) VALUES
+    (1, '2023-10-01 08:00:00', 101, 201, 1, NULL, '2023-09-20 10:00:00', NULL),
+    (2, '2023-10-01 10:00:00', 102, 202, 1, 1, '2023-09-20 10:15:00', '2023-09-21 11:00:00'),
+    (3, '2023-10-01 14:00:00', 103, 203, 2, NULL, '2023-09-21 09:00:00', NULL),
+    (4, '2023-10-02 09:00:00', 104, 204, 3, 2, '2023-09-22 08:30:00', '2023-09-22 09:45:00'),
+    (5, '2023-10-02 11:00:00', 105, 205, 3, NULL, '2023-09-22 08:45:00', NULL),
+    (6, '2023-10-02 15:00:00', 101, 201, 2, 3, '2023-09-22 09:00:00', '2023-09-23 10:30:00'),
+    (7, '2023-10-03 08:00:00', 102, 202, 1, 2, '2023-09-23 10:00:00', '2023-09-24 11:00:00'),
+    (8, '2023-10-03 10:00:00', 103, 203, 2, NULL, '2023-09-23 10:30:00', NULL),
+    (9, '2023-10-03 14:00:00', 104, 204, 3, 1, '2023-09-23 11:00:00', '2023-09-25 12:00:00'),
+    (10, '2023-10-04 09:00:00', 105, 205, 1, 2, '2023-09-25 09:00:00', '2023-09-26 10:15:00');
+
