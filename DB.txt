@@ -136,7 +136,6 @@ CREATE TABLE PatientService (
     FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID)  
 );
 
--- add data example
 
 INSERT INTO Department (DepartmentId, DepartmentName) VALUES
     (1, 'Cardiology'),
@@ -186,4 +185,5 @@ INSERT INTO WorkSchedule (ScheduleId, TimeSlot, PatientId, UserId, created_by, u
     (8, '2023-10-03 10:00:00', 103, 203, 2, NULL, '2023-09-23 10:30:00', NULL),
     (9, '2023-10-03 14:00:00', 104, 204, 3, 1, '2023-09-23 11:00:00', '2023-09-25 12:00:00'),
     (10, '2023-10-04 09:00:00', 105, 205, 1, 2, '2023-09-25 09:00:00', '2023-09-26 10:15:00');
+
 
