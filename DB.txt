@@ -1,3 +1,4 @@
+
 CREATE DATABASE HospitalManagement;
 GO
 
@@ -67,7 +68,6 @@ CREATE TABLE HospitalService (
     ServiceID INT PRIMARY KEY,
     ServiceName VARCHAR(255),
     ServiceFee FLOAT,
-    PatientId INT FOREIGN KEY REFERENCES Patient(PatientId), -- Foreign key added
     created_by INT,
     update_by INT,
     created_at DATETIME,
@@ -127,4 +127,11 @@ CREATE TABLE TreatmentPlan (
     FOREIGN KEY (PatientID) REFERENCES Patient(PatientId), -- Foreign key added
     FOREIGN KEY (UserID) REFERENCES [User](UserId), -- Foreign key added
     FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID) -- Foreign key added
+);
+CREATE TABLE PatientService (  
+    PatientID INT,  
+    ServiceID INT,  
+    PRIMARY KEY (PatientID, ServiceID),  
+    FOREIGN KEY (PatientID) REFERENCES Patient(PatientID),  
+    FOREIGN KEY (ServiceID) REFERENCES HospitalService(ServiceID)  
 );
