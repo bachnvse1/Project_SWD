@@ -1,17 +1,46 @@
 ﻿using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalLibrary.Service
 {
-    public class workscheduleService : IWorkscheduleService
+    public class WorkscheduleService : IWorkscheduleService
     {
-        public void addWorkschedule(WorkSchedule schedule)
+        private readonly IWorkscheduleRepository _workscheduleRepository;
+
+        public WorkscheduleService(IWorkscheduleRepository workscheduleRepository)
         {
-            
+            _workscheduleRepository = workscheduleRepository;
+        }
+
+        public void AddWorkSchedule(WorkSchedule schedule)
+        {
+            if (schedule == null) throw new ArgumentNullException(nameof(schedule));
+            schedule.CreatedAt = DateTime.Now;
+            _workscheduleRepository.CreateWorkSchedule(schedule);
+        }
+
+        public bool DeleteWorkSchedule(int id)
+        {
+            return _workscheduleRepository.DeleteWorkSchedule(id);
+        }
+
+        public IEnumerable<WorkSchedule> GetAllWorkSchedules()
+        {
+            return _workscheduleRepository.GetAllWorkSchedules();
+        }
+
+        public WorkSchedule GetWorkScheduleById(int id)
+        {
+            return _workscheduleRepository.GetWorkScheduleById(id);
+        }
+
+        public bool UpdateWorkSchedule(WorkSchedule schedule)
+        {
+            if (schedule == null) throw new ArgumentNullException(nameof(schedule));
+            schedule.UpdateAt = DateTime.Now;
+            return _workscheduleRepository.UpdateWorkSchedule(schedule);
         }
     }
 }

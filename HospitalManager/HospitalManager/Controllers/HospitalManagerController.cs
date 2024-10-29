@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HospitalManager.Controllers
 {
-    public class WorkScheduleController : Controller
+    public class HospitalManagerController : Controller
     {
         private readonly DBContext _context;
         private IWorkscheduleService _workscheduleService;
 
-        public WorkScheduleController(DBContext context, IWorkscheduleService workscheduleService)
+        public HospitalManagerController(DBContext context, IWorkscheduleService workscheduleService)
         {
             _context = context;
             _workscheduleService = workscheduleService;
@@ -17,7 +17,7 @@ namespace HospitalManager.Controllers
 
         public IActionResult Index()
         {
-            var workSchedules = _context.WorkSchedules.ToList();
+            var workSchedules = _workscheduleService.GetAllWorkSchedules();
             ViewBag.WorkSchedules = workSchedules;
             return View();
         }
