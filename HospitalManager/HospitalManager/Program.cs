@@ -1,4 +1,5 @@
 ﻿using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 using HospitalLibrary.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IWorkscheduleService, workscheduleService>();
+builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
+builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
