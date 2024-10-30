@@ -5,7 +5,7 @@ using HospitalLibrary.Repository;
 
 namespace HospitalLibrary.Service
 {
-    internal class UserService : IUserService
+    public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
 

@@ -14,11 +14,12 @@ namespace HospitalLibrary.Service
             _workscheduleRepository = workscheduleRepository;
         }
 
-        public void AddWorkSchedule(WorkSchedule schedule)
+        public bool AddWorkSchedule(WorkSchedule schedule)
         {
             if (schedule == null) throw new ArgumentNullException(nameof(schedule));
             schedule.CreatedAt = DateTime.Now;
             _workscheduleRepository.CreateWorkSchedule(schedule);
+            return true;
         }
 
         public bool DeleteWorkSchedule(int id)
