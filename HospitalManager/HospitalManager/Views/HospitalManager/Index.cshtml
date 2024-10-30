@@ -4,6 +4,7 @@
     ViewData["Title"] = "Work Schedule List";
     var workSchedules = ViewBag.WorkSchedules as IEnumerable<WorkSchedule>; 
     var patients = ViewBag.Patients as IEnumerable<Patient>;
+    var users = ViewBag.Users as IEnumerable<User>;
 }
 
 
@@ -71,13 +72,18 @@
                         <select class="form-control" id="PatientId">
                             @foreach (var patient in patients)
                             {
-                                <option value="@patient.PatientId">@patient.PatientId</option>
+                                <option value="@patient.PatientId">@patient.PatientName</option>
                             }
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="UserId">User</label>
-                        <select class="form-control" id="UserId"></select>
+                        <select class="form-control" id="UserId">
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.UserId">@user.Username</option>
+                            }
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -101,22 +107,28 @@
             </div>
             <div class="modal-body">
                 <form id="createForm">
+                    <input type="hidden" id="ScheduleId" />
                     <div class="form-group">
                         <label for="TimeSlot">Time Slot</label>
-                        <input type="datetime-local" class="form-control" id="TimeSlot" required />
+                        <input type="datetime-local" class="form-control" id="TimeSlotCreate" required />
                     </div>
                     <div class="form-group">
                         <label for="PatientId">Patient</label>
-                        <select class="form-control" id="PatientId">
+                        <select class="form-control" id="PatientIdCreate">
                             @foreach (var patient in patients)
                             {
-                                <option value="@patient.PatientId">@patient.PatientId</option>
+                                <option value="@patient.PatientId">@patient.PatientName</option>
                             }
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="UserId">User</label>
-                        <select class="form-control" id="UserId"></select>
+                        <select class="form-control" id="UserIdCreate">
+                            @foreach (var user in users)
+                            {
+                                <option value="@user.UserId">@user.Username</option>
+                            }
+                        </select>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -183,27 +195,33 @@
     });
 
     $('#createForm').on('submit', function (event) {
-        event.preventDefault();
+    event.preventDefault();
 
-        var timeSlot = $('#TimeSlot').val();
-        var patientId = $('#PatientId').val();
-        var userId = $('#UserId').val();
+        var timeSlot = $('#TimeSlotCreate').val();
+        var patientId = $('#PatientIdCreate').val();
+        var userId = $('#UserIdCreate').val();
 
-        $.ajax({
-            url: '/HospitalManager/Create', // Địa chỉ URL có thể điều chỉnh
-            method: 'POST',
-            data: {
-                TimeSlot: timeSlot,
-                PatientId: patientId,
-                UserId: userId
-            },
-            success: function () {
+    $.ajax({
+        url: '/HospitalManager/Create', // Địa chỉ URL có thể điều chỉnh
+        method: 'POST',
+        data: {
+            TimeSlot: timeSlot,
+            PatientId: patientId,
+            UserId: userId
+        },
+        success: function (response) {
+            if (response.success) {
+                alert("Create success!");
                 location.reload();
-            },
-            error: function () {
-                alert('Error creating schedule');
+            } else {
+                alert(response.message); // Hiển thị thông báo lỗi từ server
             }
-        });
+        },
+        error: function () {
+            alert('Error creating schedule');
+        }
     });
+});
+
 
 </script>

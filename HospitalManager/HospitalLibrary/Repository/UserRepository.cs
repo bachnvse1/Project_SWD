@@ -5,7 +5,7 @@ using HospitalLibrary.DataAccess;   // Adjust this according to your data contex
 
 namespace HospitalLibrary.Repository
 {
-    internal class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly DBContext _context; // Assuming you have a context class for your database
 
