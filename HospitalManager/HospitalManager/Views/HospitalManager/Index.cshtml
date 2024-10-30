@@ -2,10 +2,19 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Work Schedule List";
-    var workSchedules = ViewBag.WorkSchedules as List<WorkSchedule>;
+    var workSchedules = ViewBag.WorkSchedules as IEnumerable<WorkSchedule>; 
+    var patients = ViewBag.Patients as IEnumerable<Patient>;
+}
+
 }
 
 <h2>@ViewData["Title"]</h2>
+
+<div class="mb-3">
+    <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+    <button class="btn btn-primary" data-toggle="modal" data-target="#createModal">Create New Schedule</button>
+</div>
+
 
 <table class="table table-striped">
     <thead>
@@ -18,6 +27,7 @@
             <th>Updated By</th>
             <th>Created At</th>
             <th>Updated At</th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +42,169 @@
                 <td>@schedule.UpdateBy</td>
                 <td>@schedule.CreatedAt?.ToString("dd/MM/yyyy")</td>
                 <td>@schedule.UpdateAt?.ToString("dd/MM/yyyy")</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" data-toggle="modal" data-target="#editModal" data-schedule-id="@schedule.ScheduleId" data-time-slot="@schedule.TimeSlot.ToString("yyyy-MM-ddTHH:mm")" data-patient-id="@schedule.PatientId" data-user-id="@schedule.UserId">Edit</button>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<!-- Modal for editing WorkSchedule -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Work Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="ScheduleId" />
+                    <div class="form-group">
+                        <label for="TimeSlot">Time Slot</label>
+                        <input type="datetime-local" class="form-control" id="TimeSlot" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PatientId">Patient</label>
+                        <select class="form-control" id="PatientId">
+                            @foreach (var patient in patients)
+                            {
+                                <option value="@patient.PatientId">@patient.PatientId</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="UserId">User</label>
+                        <select class="form-control" id="UserId"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for creating new WorkSchedule -->
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createModalLabel">Create New Work Schedule</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createForm">
+                    <div class="form-group">
+                        <label for="TimeSlot">Time Slot</label>
+                        <input type="datetime-local" class="form-control" id="TimeSlot" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="PatientId">Patient</label>
+                        <select class="form-control" id="PatientId">
+                            @foreach (var patient in patients)
+                            {
+                                <option value="@patient.PatientId">@patient.PatientId</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="UserId">User</label>
+                        <select class="form-control" id="UserId"></select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Include jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- Script to handle modal population -->
+<script>
+    $('#editModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var scheduleId = button.data('schedule-id');
+        var timeSlot = button.data('time-slot');
+        var patientId = button.data('patient-id');
+        var userId = button.data('user-id');
+
+        var modal = $(this);
+        modal.find('#ScheduleId').val(scheduleId);
+        modal.find('#TimeSlot').val(timeSlot);
+        modal.find('#PatientId').val(patientId);
+        modal.find('#UserId').val(userId);
+    });
+
+    // Handle form submission
+    $('#editForm').on('submit', function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        var scheduleId = $('#ScheduleId').val();
+        var timeSlot = $('#TimeSlot').val();
+        var patientId = $('#PatientId').val();
+        var userId = $('#UserId').val();
+
+        // Here you would typically send the data to the server via AJAX.
+        // For example:
+        $.ajax({
+            url: '/HospitalManager/Edit', // Adjust the URL as necessary
+            method: 'POST',
+            data: {
+                ScheduleId: scheduleId,
+                TimeSlot: timeSlot,
+                PatientId: patientId,
+                UserId: userId
+            },
+            success: function () {
+                // Refresh the page or update the table without refreshing
+                alert("Update success!");
+                location.reload(); // For a full refresh
+            },
+            error: function () {
+                alert('Error updating schedule');
+            }
+        });
+    });
+
+    $('#createForm').on('submit', function (event) {
+        event.preventDefault();
+
+        var timeSlot = $('#TimeSlot').val();
+        var patientId = $('#PatientId').val();
+        var userId = $('#UserId').val();
+
+        $.ajax({
+            url: '/HospitalManager/Create', // Địa chỉ URL có thể điều chỉnh
+            method: 'POST',
+            data: {
+                TimeSlot: timeSlot,
+                PatientId: patientId,
+                UserId: userId
+            },
+            success: function () {
+                location.reload();
+            },
+            error: function () {
+                alert('Error creating schedule');
+            }
+        });
+    });
+
+</script>

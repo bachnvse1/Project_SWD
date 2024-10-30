@@ -11,6 +11,8 @@ builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
 builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
+builder.Services.AddScoped<IPatientService, PatientService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
