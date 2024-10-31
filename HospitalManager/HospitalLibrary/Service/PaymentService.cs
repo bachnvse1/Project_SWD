@@ -1,12 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 
 namespace HospitalLibrary.Service
 {
-    internal class PaymentService
+    public class PaymentService : IPaymentService
     {
+        private readonly IPaymentRepository _paymentRepository;
+
+        public PaymentService(IPaymentRepository paymentRepository)
+        {
+            _paymentRepository = paymentRepository;
+        }
+
+
+
+        public int GenerateNextPaymentId()
+        {
+           
+            int maxPaymentId = _paymentRepository.GetMaxPaymentId();
+           
+                return maxPaymentId + 1;
+        }
+
+        public void CreatePayment(Payment payment)
+        {
+            payment.PaymentId = GenerateNextPaymentId(); // Set the new PaymentId
+            payment.TransactionTime = DateTime.Now;
+            payment.CreatedAt = DateTime.Now;
+            _paymentRepository.AddPayment(payment);
+        }
     }
 }

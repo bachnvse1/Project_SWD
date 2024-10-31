@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalLibrary.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace HospitalLibrary.Service
 {
-    internal class IPaymentService
+    public interface IPaymentService
     {
+        void CreatePayment(Payment payment);
     }
 }

@@ -47,5 +47,28 @@ namespace HospitalLibrary.Service
         {
             _patientRepository.RestorePatient(patientId);
         }
+
+        public IEnumerable<Patient> SearchPatient(string searchname)
+        {
+            return _patientRepository.SearchPatients(searchname);
+
+        }
+
+        
+
+        public Patient GetPatientServiceById(int? patientId)
+        {
+            return _patientRepository.GetPatientServiceById(patientId);
+        }
+
+        public void MarkPatientAsDeleted(int? patientId)
+        {
+            var patient = _patientRepository.GetPatientServiceById(patientId);
+            if (patient != null)
+            {
+                patient.IsDelete = true;
+                _patientRepository.UpdatePatient(patient);
+            }
+        }
     }
 }

@@ -1,12 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using HospitalLibrary.DataAccess;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalLibrary.Repository
 {
-    internal class PaymentRepository
+    public class PaymentRepository : IPaymentRepository
     {
+        private readonly DBContext _context;
+
+        public PaymentRepository(DBContext context)
+        {
+            _context = context;
+        }
+
+        public void AddPayment(Payment payment)
+        {
+            _context.Payments.Add(payment);
+            _context.SaveChanges();
+        }
+        public int GetMaxPaymentId()
+        {
+            
+            return _context.Payments.Max(p => p.PaymentId);
+        }
+    
     }
 }

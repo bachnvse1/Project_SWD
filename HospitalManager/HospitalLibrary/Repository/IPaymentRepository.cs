@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalLibrary.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace HospitalLibrary.Repository
 {
-    internal class IPaymentRepository
+    public interface IPaymentRepository
     {
+        void AddPayment(Payment payment);
+        int GetMaxPaymentId();
     }
 }

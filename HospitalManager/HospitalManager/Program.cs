@@ -13,6 +13,8 @@ builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
 builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
