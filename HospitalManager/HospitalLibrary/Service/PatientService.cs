@@ -1,26 +1,51 @@
-﻿using HospitalLibrary.DataAccess;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 
 namespace HospitalLibrary.Service
 {
     public class PatientService : IPatientService
     {
-        private readonly DBContext _context;
-        public PatientService()
-        {
-            _context = new DBContext();
-        }
-        public void getAllPatient(Patient patient)
-        {
+        private readonly IPatientRepository _patientRepository;
 
-        }
-        public Patient getPatientByID(int id)
+        public PatientService(IPatientRepository patientRepository)
         {
-            return _context.Patients.FirstOrDefault(p => p.PatientId == id);
+            _patientRepository = patientRepository;
+        }
+
+        public void AddPatient(Patient patient)
+        {
+            _patientRepository.AddPatient(patient);
+        }
+
+        public IEnumerable<Patient> GetAllPatients()
+        {
+            return _patientRepository.GetAllPatients();
+        }
+
+        public Patient GetPatientById(int patientId)
+        {
+            return _patientRepository.GetPatientById(patientId);
+        }
+
+        public void UpdatePatient(Patient patient)
+        {
+            _patientRepository.UpdatePatient(patient);
+        }
+
+        public void DeletePatient(int patientId)
+        {
+            _patientRepository.DeletePatient(patientId);
+        }
+
+        public IEnumerable<Patient> GetDeletedPatients()
+        {
+            return _patientRepository.GetDeletedPatients();
+        }
+
+        public void RestorePatient(int patientId)
+        {
+            _patientRepository.RestorePatient(patientId);
         }
     }
 }

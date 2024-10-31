@@ -1,4 +1,5 @@
 ﻿using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 using HospitalLibrary.Service;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,7 +9,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<IWorkscheduleService, workscheduleService>();
+// Thêm vào Startup.cs hoặc Program.cs
+
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
+builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
+builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
 
 var app = builder.Build();

@@ -1,14 +1,14 @@
-﻿  using HospitalLibrary.DataAccess;
-using System;
+﻿using HospitalLibrary.DataAccess;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalLibrary.Service
 {
     public interface IWorkscheduleService
     {
-        public void addWorkschedule(WorkSchedule schedule);
+        bool AddWorkSchedule(WorkSchedule schedule);
+        IEnumerable<WorkSchedule> GetAllWorkSchedules();
+        WorkSchedule GetWorkScheduleById(int id);
+        bool UpdateWorkSchedule(WorkSchedule schedule);
+        bool DeleteWorkSchedule(int id);
     }
 }

@@ -316,6 +316,12 @@ public partial class DBContext : DbContext
                 .HasConstraintName("FK__WorkSched__UserI__398D8EEE");
         });
 
+        modelBuilder.Entity<Patient>()
+        .HasMany(p => p.Services)
+        .WithMany(s => s.Patients)
+        .UsingEntity<Dictionary<string, object>>("PatientService");
+
+
         OnModelCreatingPartial(modelBuilder);
     }
 

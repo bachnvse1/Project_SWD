@@ -1,15 +1,16 @@
 ﻿using HospitalLibrary.DataAccess;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HospitalLibrary.Service
 {
     public interface IPatientService
     {
-        public void getAllPatient(Patient patient);
-        Patient getPatientByID(int id);
+        void AddPatient(Patient patient);
+        IEnumerable<Patient> GetAllPatients();
+        Patient GetPatientById(int patientId);
+        void UpdatePatient(Patient patient);
+        void DeletePatient(int patientId);
+        IEnumerable<Patient> GetDeletedPatients();
+        void RestorePatient(int patientId);
     }
 }
