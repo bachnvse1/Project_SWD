@@ -1,0 +1,104 @@
+﻿@using HospitalLibrary.DataAccess
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Patient List";
+    var patient = ViewBag.Patients as List<Patient>;
+    var medicalRecord = ViewBag.MedicalRecords as List<MedicalRecord>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/patientDetail.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container mt-4">
+        <div class="header mb-4 text-center">
+            <h1>Kans Hospital Management System</h1>
+            <p class="lead">Manage Patient Records Efficiently</p>
+        </div>
+
+        <!-- Patient Details -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2>Patient Details</h2>
+                <p><strong>ID:</strong> @Model.Patient.PatientId</p>
+                <p><strong>Name:</strong> @Model.Patient.PatientName</p>
+                <p><strong>Date of Birth:</strong> @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")</p>
+                <p><strong>Gender:</strong> @Model.Patient.Gender</p>
+                <p><strong>Phone:</strong> @Model.Patient.Phone</p>
+                <p><strong>Room ID:</strong> @Model.Patient.RoomId</p>
+                <p><strong>Health Insurance:</strong> @Model.Patient.HealthInsurance</p>
+                <p><strong>Health Condition:</strong> @Model.Patient.HealthCondition</p>
+                <p><strong>MedicalRecord: </strong></p>
+                <textarea class="MedicalRecordInput">
+                    @Model.MedicalRecord.Detail
+                </textarea>
+                
+                
+                <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#addPatientModal">Add Medical Record</button>
+                <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#updatePatientModal">Update Medical Record</button>
+            </div>
+        </div>
+        <div>
+            
+        </div>
+
+        <!-- Modal Form for Adding Patient -->
+        <div class="modal fade" id="addPatientModal" tabindex="-1" aria-labelledby="addPatientModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addPatientModalLabel">Add Medical Record</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="CreateMedicalRecord" asp-controller="MedicalRecord" method="post">
+                            <!-- Trường ẩn cho PatientId -->
+                            <input type="hidden" name="PatientId" value=" @Model.Patient.PatientId" />
+
+                            <div class="mb-3">
+                                <label for="Detail" class="form-label">Medical Record Detail</label>
+                                <textarea class="form-control" id="Detail" name="DetailMedicalRecord" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal Form for Updating Patient -->
+        <div class="modal fade" id="updatePatientModal" tabindex="-1" aria-labelledby="updatePatientModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="updatePatientModalLabel">Update Medical Record</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form asp-action="UpdateMedicalRecord" asp-controller="MedicalRecord" method="post">
+                            <!-- Trường ẩn cho PatientId -->
+                            <input type="hidden" name="PatientId" value=" @Model.Patient.PatientId" />
+
+                            <div class="mb-3">
+                                <label for="Detail" class="form-label">Medical Record Detail</label>
+                                <textarea class="form-control" id="Detail" name="DetailMedicalRecord" rows="3" required>@Model.MedicalRecord.Detail</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add Bootstrap JS and Popper.js for modal functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

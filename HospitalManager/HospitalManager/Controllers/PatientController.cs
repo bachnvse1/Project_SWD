@@ -9,14 +9,41 @@ namespace HospitalManager.Controllers
     public class PatientController : Controller
     {
         private readonly DBContext _context;
-        private IPatientService _patientService;
+        private IPatientService _patientServices;
+        private IMedicalRecordService _medicalRecordService;
         private IRoomService _roomService;
-
-        public PatientController(DBContext context, IRoomService roomService, IPatientService patientService)
+        public class PatientDetailViewModel
+        {
+            public Patient Patient { get; set; }
+            public MedicalRecord MedicalRecord { get; set; }
+        }
+        public PatientController(DBContext context, IPatientService patientServices, IMedicalRecordService medicalRecordService, IRoomService roomService)
         {
             _context = context;
-            _patientService = patientService;
+            _patientServices = patientServices;
+            _medicalRecordService = medicalRecordService;
             _roomService = roomService;
+        }
+        public IActionResult Index()
+        {
+            var patient = _context.Patients.ToList();
+            ViewBag.Patients = patient;
+            return View();
+        }
+        public IActionResult PatientDetail(int id)
+        {
+            var patient = _patientServices.GetPatientById(id);
+            if (patient == null) return NotFound();
+
+            var medicalRecord = _medicalRecordService.GetMedicalRecordByPatientID(id) ?? new MedicalRecord { PatientId = id, Detail = "" };
+
+            var viewModel = new PatientDetailViewModel
+            {
+                Patient = patient,
+                MedicalRecord = medicalRecord
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -34,7 +61,7 @@ namespace HospitalManager.Controllers
             {
                 var patient = new Patient
                 {
-                    PatientId = _patientService.GetAllPatients().Select(p => p.PatientId).Max() + 1,
+                    PatientId = _patientServices.GetAllPatients().Select(p => p.PatientId).Max() + 1,
                     PatientName = patientName,
                     DateOfBirth = dateOfBirth,
                     Gender = gender,
@@ -47,25 +74,24 @@ namespace HospitalManager.Controllers
                     IsDelete = false
                 };
 
-                _patientService.CreateHospitalAdmissionProcedure(patient);
+                _patientServices.CreateHospitalAdmissionProcedure(patient);
                 return RedirectToAction("Index1"); // Redirect to the patient list after creation
             }
 
             return View(); // Re-display the form if there are validation errors
         }
 
-        // Display all patients
+        // Display all patients  
         public IActionResult GetAllPatients()
         {
-            IEnumerable<Patient> patients = _patientService.GetAllPatients();
-            return View(patients);
-        }
+            IEnumerable<Patient> patients = _patientServices.GetAllPatients();
 
         public IActionResult Index1()
         {
-            var patients = _patientService.GetAllPatients();
+            var patients = _patientServices.GetAllPatients();
             ViewBag.patients = patients;
-            ViewBag.rooms = _roomService.GetAllRooms().Where(x=>x.IsAvailable==true).ToList();
+            ViewBag.rooms = _roomService.GetAllRooms().Where(x => x.IsAvailable == true).ToList();
+
             return View();
         }
     }

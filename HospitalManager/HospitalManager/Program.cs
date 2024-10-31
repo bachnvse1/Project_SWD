@@ -17,6 +17,8 @@ builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
 builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
