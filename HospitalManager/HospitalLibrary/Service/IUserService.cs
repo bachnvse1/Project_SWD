@@ -20,6 +20,6 @@ namespace HospitalLibrary.Service
         // Method to delete a user
         void RemoveUser(int userId);
 
-        IEnumerable<User> AvailableUsers();
+        public IEnumerable<User> AvailableUsers(int userId);
     }
 }

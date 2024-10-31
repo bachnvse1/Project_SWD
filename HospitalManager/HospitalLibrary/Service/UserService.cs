@@ -39,9 +39,9 @@ namespace HospitalLibrary.Service
             _userRepository.DeleteUser(userId);
         }
 
-        public IEnumerable<User> AvailableUsers()
+        public IEnumerable<User> AvailableUsers(int userId)
         {
-            return _userRepository.GetAllUsers().Where(user => (bool)user.IsAvailable);
+            return _userRepository.GetAllUsers().Where(user => user.UserId == userId && user.IsAvailable == true);
         }
     }
 }
