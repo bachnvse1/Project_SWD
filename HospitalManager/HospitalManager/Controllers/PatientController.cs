@@ -48,7 +48,7 @@ namespace HospitalManager.Controllers
                 };
 
                 _patientService.CreateHospitalAdmissionProcedure(patient);
-                return RedirectToAction("Index"); // Redirect to the patient list after creation
+                return RedirectToAction("Index1"); // Redirect to the patient list after creation
             }
 
             return View(); // Re-display the form if there are validation errors
@@ -61,7 +61,7 @@ namespace HospitalManager.Controllers
             return View(patients);
         }
 
-        public IActionResult Index()
+        public IActionResult Index1()
         {
             var patients = _patientService.GetAllPatients();
             ViewBag.patients = patients;
