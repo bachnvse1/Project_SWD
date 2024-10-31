@@ -1,6 +1,8 @@
 ﻿using HospitalLibrary.DataAccess;
 using HospitalLibrary.Service;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace HospitalManager.Controllers
 {
@@ -83,14 +85,13 @@ namespace HospitalManager.Controllers
         public IActionResult GetAllPatients()
         {
             IEnumerable<Patient> patients = _patientServices.GetAllPatients();
-            return View(patients);
-        }
 
         public IActionResult Index1()
         {
             var patients = _patientServices.GetAllPatients();
             ViewBag.patients = patients;
             ViewBag.rooms = _roomService.GetAllRooms().Where(x => x.IsAvailable == true).ToList();
+
             return View();
         }
     }

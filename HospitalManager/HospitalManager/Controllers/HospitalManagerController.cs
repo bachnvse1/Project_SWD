@@ -33,14 +33,11 @@ namespace HospitalManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int scheduleId, DateTime timeSlot, int? patientId, int? userId)
+        public IActionResult Edit(int scheduleId, DateTime timeSlot, int patientId, int userId)
         {
             if (ModelState.IsValid)
             {
-                var existingSchedule = _context.WorkSchedules
-                    .FirstOrDefault(ws => ws.TimeSlot == timeSlot && ws.PatientId == patientId && ws.UserId == userId);
-
-                if (existingSchedule != null && existingSchedule.ScheduleId != scheduleId)
+                if (!_workscheduleService.validateWorkSchedule(timeSlot, patientId, userId))
                 {
                     return Json(new { success = false, message = "Một lịch làm việc đã tồn tại cho bệnh nhân và người dùng này vào khoảng thời gian đã chọn." });
                 }
@@ -76,10 +73,7 @@ namespace HospitalManager.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingSchedule = _context.WorkSchedules
-                    .FirstOrDefault(ws => ws.TimeSlot == TimeSlot && ws.PatientId == PatientId && ws.UserId == UserId);
-
-                if (existingSchedule != null)
+                if (!_workscheduleService.validateWorkSchedule(TimeSlot, PatientId, UserId))
                 {
                     return Json(new { success = false, message = "Một lịch làm việc đã tồn tại cho bệnh nhân và người dùng này vào khoảng thời gian đã chọn." });
                 }

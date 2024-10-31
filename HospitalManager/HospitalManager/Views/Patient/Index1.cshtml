@@ -1,0 +1,126 @@
+﻿@using HospitalLibrary.DataAccess
+@model IEnumerable<HospitalLibrary.DataAccess.Patient>
+@{
+    var listPatient = ViewBag.patients as List<Patient>;
+    var listRoom = ViewBag.rooms as List<Room>;
+}
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<h2>All Patients</h2>
+
+<!-- Button to open the modal form -->
+<button type="button" class="btn btn-success mb-3" style="font-size: 1.1em; font-weight: bold; padding: 10px 20px; border-radius: 8px;" data-toggle="modal" data-target="#createPatientModal">
+    <i class="fas fa-user-plus"></i> Create New Patient
+</button>
+
+<!-- Modal for creating new patient -->
+<!-- Modal for creating new patient -->
+<div class="modal fade" id="createPatientModal" tabindex="-1" aria-labelledby="createPatientModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPatientModalLabel">Create New Patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createPatientForm">
+                    <div class="form-group">
+                        <label for="patientName">Patient Name</label>
+                        <input type="text" class="form-control" id="patientName" name="patientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="roomId">Room ID</label>
+                        <select class="form-control" id="roomId" name="roomId" required>
+                            <option value="">Select Room</option>
+                            @foreach (var room in listRoom)
+                            {
+                                <option value="@room.RoomId">@room.RoomName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="healthInsurance">Health Insurance</label>
+                        <input type="text" class="form-control" id="healthInsurance" name="healthInsurance">
+                    </div>
+                    <div class="form-group">
+                        <label for="healthCondition">Health Condition</label>
+                        <input type="text" class="form-control" id="healthCondition" name="healthCondition">
+                    </div>
+                    <input type="hidden" id="createdBy" name="createdBy" value="1"> <!-- Example value -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" onclick="submitPatientForm()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Patient Name</th>
+            <th>Date of Birth</th>
+            <th>Gender</th>
+            <th>Phone</th>
+            <th>Room ID</th>
+            <th>Health Insurance</th>
+            <th>Health Condition</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in listPatient)
+        {
+            <tr>
+                <td>@patient.PatientName</td>
+                <td>@patient.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+                <td>@patient.Gender</td>
+                <td>@patient.Phone</td>
+                <td>@patient.RoomId</td>
+                <td>@patient.HealthInsurance</td>
+                <td>@patient.HealthCondition</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    function submitPatientForm() {
+        $.ajax({
+            url: '@Url.Action("CreateHospitalAdmission", "Patient")',
+            type: 'POST',
+            data: $('#createPatientForm').serialize(),
+            success: function (response) {
+                $('#createPatientModal').modal('hide'); // Ẩn modal
+                location.reload(); // Tải lại trang để xem bệnh nhân mới
+            },
+            error: function (xhr) {
+                alert("Failed to save patient. Please check your input.");
+            }
+        });
+    }
+</script>

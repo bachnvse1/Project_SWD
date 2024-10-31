@@ -13,5 +13,9 @@ namespace HospitalLibrary.Repository
         void DeletePatient(int patientId);
         IEnumerable<Patient> GetDeletedPatients();
         void RestorePatient(int patientId);
+        int CountPatientsInRoom(int roomId);
+        void CreateHospitalAdmissionProcedure(Patient patient);
+        IEnumerable<Patient> SearchPatients(string searchname);
+        Patient GetPatientServiceById(int? patientId);
     }
 }
