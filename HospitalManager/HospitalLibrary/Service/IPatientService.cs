@@ -12,5 +12,8 @@ namespace HospitalLibrary.Service
         void DeletePatient(int patientId);
         IEnumerable<Patient> GetDeletedPatients();
         void RestorePatient(int patientId);
+        IEnumerable<Patient> SearchPatient(string searchname);
+        Patient GetPatientServiceById(int? patientId);
+        void MarkPatientAsDeleted(int? patientId);
     }
 }

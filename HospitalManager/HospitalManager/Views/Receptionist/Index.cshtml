@@ -1,5 +1,86 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<HospitalLibrary.DataAccess.Patient>
 @{
+    ViewData["Title"] = "Patient List";
 }
+
+<h1>Patient List</h1>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+<form method="get" action="/Receptionist/Index">
+    <div class="form-group">
+        <input type="text" name="searchTerm" value="@ViewContext.HttpContext.Request.Query["searchTerm"]" placeholder="Search by name or phone" class="form-control" />
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </div>
+</form>
+
+<table class="table table-striped mt-4">
+    <thead>
+        <tr>
+            <th>Patient ID</th>
+            <th>Name</th>
+            <th>Phone</th>
+            <th>Gender</th>
+            <th>Date of Birth</th>
+            <th>Room</th>
+            <th>Health Insurance</th>
+            <th>Condition</th>
+            <th>Hospital Services</th>
+            <th>Create Bill</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model)
+        {
+            <tr>
+                <td>@patient.PatientId</td>
+                <td>@patient.PatientName</td>
+                <td>@patient.Phone</td>
+                <td>@patient.Gender</td>
+                <td>@patient.DateOfBirth?.ToString("yyyy-MM-dd")</td>
+                <td>@patient.Room?.RoomName</td>
+                <td>@patient.HealthInsurance</td>
+                <td>@patient.HealthCondition</td>
+                <td>
+                    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#servicesModal-@patient.PatientId">View Services</button>
+
+                    <!-- Modal for viewing services -->
+                    <div class="modal fade" id="servicesModal-@patient.PatientId" tabindex="-1" aria-labelledby="servicesModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="servicesModalLabel">Hospital Services for @patient.PatientName</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-group">
+                                        @foreach (var service in patient.Services)
+                                        {
+                                            <li class="list-group-item">
+                                                @service.ServiceName - $@service.ServiceFee
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <a href="/Receptionist/CreateBill?patientId=@patient.PatientId" class="btn btn-success">Create Bill</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Include Bootstrap CSS and JS Bundle for modal functionality -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using HospitalLibrary.DataAccess;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace HospitalLibrary.Repository
 {
@@ -59,6 +61,25 @@ namespace HospitalLibrary.Repository
                 patient.IsDelete = false;
                 _context.SaveChanges();
             }
+        }
+ 
+        public IEnumerable<Patient> SearchPatients(string? searchTerm)
+        {
+            var query = _context.Patients.Where(p => p.IsDelete==false);
+
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                query = query.Where(p => p.PatientName.Contains(searchTerm) || p.Phone.Contains(searchTerm));
+            }
+
+            return query.Include(p => p.Room).Include(p => p.Services).ToList();
+        }
+
+        public Patient GetPatientServiceById(int? patientId)
+        {
+            return _context.Patients
+                  .Include(p => p.Services)
+                  .FirstOrDefault(p => p.PatientId == patientId);
         }
     }
 }
