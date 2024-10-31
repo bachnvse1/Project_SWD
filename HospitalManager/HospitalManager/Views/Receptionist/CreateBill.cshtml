@@ -1,0 +1,66 @@
+﻿@model HospitalLibrary.DataAccess.Patient
+
+@{
+    ViewData["Title"] = "Create Bill for " + Model.PatientName;
+}
+
+<h1>Create Bill for @Model.PatientName</h1>
+
+<!-- Debugging output -->
+@if (Model.Services != null && Model.Services.Any())
+{
+    <p>Services found:</p>
+    <ul>
+        @foreach (var service in Model.Services)
+        {
+            <li>@service.ServiceName - $@service.ServiceFee</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No services found for this patient.</p>
+}
+
+<form method="post" action="/Receptionist/CreateBill">
+    <input type="hidden" name="PatientId" value="@Model.PatientId" />
+
+    <h3>Hospital Services:</h3>
+    <table class="table table-striped mb-3">
+        <thead>
+            <tr>
+                <th>Service Name</th>
+                <th>Service Fee</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var service in Model.Services)
+            {
+                <tr>
+                    <td>@service.ServiceName</td>
+                    <td>$@service.ServiceFee</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="form-group">
+        <label>Total Amount</label>
+        <input type="number" name="Amount" value="@Model.Services.Sum(s => s.ServiceFee)" class="form-control" readonly />
+    </div>
+
+    <div class="form-group mt-3">
+        <label>Transaction Time</label>
+        <input type="datetime-local" name="TransactionTime" value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" class="form-control" />
+    </div>
+
+    <div class="form-group mt-3">
+        <label>Notes (Optional)</label>
+        <textarea name="Notes" class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group mt-4">
+        <button type="submit" class="btn btn-success">Checkout</button>
+        <a href="/Receptionist/Index" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
