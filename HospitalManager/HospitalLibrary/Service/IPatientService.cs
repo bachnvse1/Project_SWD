@@ -12,10 +12,9 @@ namespace HospitalLibrary.Service
         void DeletePatient(int patientId);
         IEnumerable<Patient> GetDeletedPatients();
         void RestorePatient(int patientId);
-        public void CreateHospitalAdmissionProcedure(Patient patient);
-        public int CountPatientsInRoom(int roomId);
         IEnumerable<Patient> SearchPatient(string searchname);
         Patient GetPatientServiceById(int? patientId);
         void MarkPatientAsDeleted(int? patientId);
+        void CreateHospitalAdmissionProcedure(Patient patient);
     }
 }

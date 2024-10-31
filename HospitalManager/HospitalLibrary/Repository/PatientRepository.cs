@@ -86,9 +86,7 @@ namespace HospitalLibrary.Repository
 
         public Patient GetPatientServiceById(int? patientId)
         {
-            return _context.Patients
-                  .Include(p => p.Services)
-                  .FirstOrDefault(p => p.PatientId == patientId);
+            return _context.Patients .Include(p => p.Services).FirstOrDefault(p => p.PatientId == patientId);
         }
     }
 }
