@@ -1,0 +1,66 @@
+﻿@using HospitalLibrary.DataAccess
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Patient List";
+    var patient = ViewBag.Patients as List<Patient>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="~/css/main.css">
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Kans</h1>
+            <p>Hospital Management System</p>
+        </div>
+        <div class="user-info">
+            <span>Marvin McKinney</span>
+            <span class="user-icon">M</span>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <button class="add-doctor-btn">+</button>
+        <ul>
+            <li>Users</li>
+            <li><a asp-controller="Receptionist" asp-action="Index">Receptionist</a></li>
+            <li><a asp-controller="WorkSchedule" asp-action="Index">Create treatment</a></li>
+            <li>Hospitals</li>
+            <li>Notice</li>
+            <li><a asp-controller="WorkSchedule" asp-action="Index">Work Schedule</a></li>
+            <Li><a asp-controller="Patient" asp-action="Index">Patient</a></Li>
+            <li>Help Center</li>
+        </ul>
+    </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Date of birth</th>
+                    <th>Gender</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var patientinfo in patient)
+                {
+                    <tr>
+                        <td>@patientinfo.PatientId</td>
+                        <td>@patientinfo.PatientName</td>
+                        <td>@patientinfo.DateOfBirth.ToString()</td>
+                        <td>@patientinfo.Gender</td>
+                        <td>@patientinfo.Phone</td>
+                        <td><a asp-controller="Patient" asp-action="patientDetail" asp-route-id="@patientinfo.PatientId">Detail</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+</body>

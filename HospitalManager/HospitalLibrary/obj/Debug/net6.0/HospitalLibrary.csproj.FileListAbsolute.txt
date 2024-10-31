@@ -1,0 +1,15 @@
+C:\ProjectSWD\HospitalManager\HospitalLibrary\bin\Debug\net6.0\HospitalLibrary.deps.json
+C:\ProjectSWD\HospitalManager\HospitalLibrary\bin\Debug\net6.0\HospitalLibrary.runtimeconfig.json
+C:\ProjectSWD\HospitalManager\HospitalLibrary\bin\Debug\net6.0\HospitalLibrary.dll
+C:\ProjectSWD\HospitalManager\HospitalLibrary\bin\Debug\net6.0\HospitalLibrary.pdb
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.csproj.AssemblyReference.cache
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.AssemblyInfoInputs.cache
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.AssemblyInfo.cs
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.csproj.CoreCompileInputs.cache
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.sourcelink.json
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.dll
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\refint\HospitalLibrary.dll
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.pdb
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\HospitalLibrary.genruntimeconfig.cache
+C:\ProjectSWD\HospitalManager\HospitalLibrary\obj\Debug\net6.0\ref\HospitalLibrary.dll

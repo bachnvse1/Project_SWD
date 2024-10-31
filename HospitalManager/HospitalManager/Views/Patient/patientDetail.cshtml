@@ -1,0 +1,48 @@
+﻿@using HospitalLibrary.DataAccess
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Patient List";
+    var patient = ViewBag.Patients as List<Patient>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/patientDetail.css"/>
+</head>
+
+<body>
+    <div class="header">
+        <div class="header-content">
+            <h1>Kans</h1>
+            <p>Hospital Management System</p>
+        </div>
+        <div class="user-info">
+            <span>Marvin McKinney</span>
+            <span class="user-icon">M</span>
+        </div>
+    </div>
+
+    
+    <div>
+        <h2>Patient Details</h2>
+            <p><strong>ID:</strong> @Model.Patient.PatientId</p>
+            <p><strong>Name:</strong> @Model.Patient.PatientName</p>
+            <p><strong>Date of Birth:</strong> @Model.Patient.DateOfBirth.ToString("dd/MM/yyyy")</p>
+            <p><strong>Gender:</strong> @Model.Patient.Gender</p>
+            <p><strong>Phone:</strong> @Model.Patient.Phone</p>
+            <p><strong>RoomId:</strong> @Model.Patient.RoomId</p>
+            <p><strong>Health Insurance:</strong> @Model.Patient.HealthInsurance</p>
+            <p><strong>Health Condition:</strong> @Model.Patient.HealthCondition</p>
+
+            <h2>Medical Record</h2>
+          
+
+            <button type="submit" formaction="@Url.Action("AddOrUpdateMedicalRecord", "Patient", new { patientId = Model.Patient.PatientId })">Save</button>
+    </div>
+
+   
+</body>
