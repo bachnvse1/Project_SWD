@@ -4,6 +4,7 @@ using System.Linq;
 using HospitalLibrary.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace HospitalLibrary.Repository
 {
     public class PatientRepository : IPatientRepository
@@ -61,6 +62,7 @@ namespace HospitalLibrary.Repository
                 _context.SaveChanges();
             }
         }
+ 
         public IEnumerable<Patient> SearchPatients(string? searchTerm)
         {
             var query = _context.Patients.Where(p => p.IsDelete==false);
@@ -79,7 +81,5 @@ namespace HospitalLibrary.Repository
                   .Include(p => p.Services)
                   .FirstOrDefault(p => p.PatientId == patientId);
         }
-
-        
     }
 }

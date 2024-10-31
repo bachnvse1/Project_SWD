@@ -1,6 +1,8 @@
 ﻿using HospitalLibrary.DataAccess;
 using HospitalLibrary.Service;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace HospitalManager.Controllers
 {
@@ -8,21 +10,25 @@ namespace HospitalManager.Controllers
     {
         private readonly DBContext _context;
         private IWorkscheduleService _workscheduleService;
-        private IPatientService _petientService;
+        private IPatientService _patientService;
+        private IUserService _userService;
 
-        public HospitalManagerController(DBContext context, IWorkscheduleService workscheduleService, IPatientService patientService)
+        public HospitalManagerController(DBContext context, IWorkscheduleService workscheduleService, IPatientService patientService, IUserService userService)
         {
             _context = context;
             _workscheduleService = workscheduleService;
-            _petientService = patientService;
+            _patientService = patientService;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
             var workSchedules = _workscheduleService.GetAllWorkSchedules();
             ViewBag.WorkSchedules = workSchedules;
-            var listPatient = _petientService.GetAllPatients().Where(x => x.RoomId == null);
+            var listPatient = _patientService.GetAllPatients();
             ViewBag.Patients = listPatient;
+            var listUser = _userService.GetAllUsers();
+            ViewBag.Users = listUser;
             return View();
         }
 
@@ -31,6 +37,13 @@ namespace HospitalManager.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingSchedule = _context.WorkSchedules
+                    .FirstOrDefault(ws => ws.TimeSlot == timeSlot && ws.PatientId == patientId && ws.UserId == userId);
+
+                if (existingSchedule != null && existingSchedule.ScheduleId != scheduleId)
+                {
+                    return Json(new { success = false, message = "Một lịch làm việc đã tồn tại cho bệnh nhân và người dùng này vào khoảng thời gian đã chọn." });
+                }
 
                 var workSchedule = new WorkSchedule
                 {
@@ -38,12 +51,59 @@ namespace HospitalManager.Controllers
                     TimeSlot = timeSlot,
                     PatientId = patientId,
                     UserId = userId,
-                    UpdateBy = 1,
+                    UpdateBy = userId,
                     UpdateAt = DateTime.Now
                 };
 
+               var check = _workscheduleService.UpdateWorkSchedule(workSchedule);
 
-                var result = _workscheduleService.UpdateWorkSchedule(workSchedule);
+                if (check)
+                {
+                    return Json(new { success = true });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "Cập nhật không thành công." });
+                }
+            }
+
+            return Json(new { success = false, message = "Dữ liệu không hợp lệ." });
+        }
+
+
+        [HttpPost]
+        public IActionResult Create(DateTime TimeSlot, int PatientId, int UserId)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingSchedule = _context.WorkSchedules
+                    .FirstOrDefault(ws => ws.TimeSlot == TimeSlot && ws.PatientId == PatientId && ws.UserId == UserId);
+
+                if (existingSchedule != null)
+                {
+                    return Json(new { success = false, message = "Một lịch làm việc đã tồn tại cho bệnh nhân và người dùng này vào khoảng thời gian đã chọn." });
+                }
+
+                var userAvailable = _userService.AvailableUsers(UserId);
+                if (userAvailable == null)
+                {
+                    return Json(new { success = false, message = "Người dùng không khả dụng" });
+                }
+
+                var idMax = _context.WorkSchedules.ToList().Select(x => x.ScheduleId).Max();
+
+                var workSchedule = new WorkSchedule
+                {
+                    ScheduleId = idMax + 1,
+                    TimeSlot = TimeSlot,
+                    PatientId = PatientId,
+                    UserId = UserId,
+                    UpdateAt = DateTime.Now,
+                    CreatedAt = DateTime.Now,
+                    CreatedBy = UserId,
+                };
+
+                var result = _workscheduleService.AddWorkSchedule(workSchedule);
 
                 if (result)
                 {
@@ -51,18 +111,11 @@ namespace HospitalManager.Controllers
                 }
                 else
                 {
-                    return Json(new { success = false, message = "Update failed." });
+                    return Json(new { success = false, message = "Cập nhật không thành công." });
                 }
             }
 
-            return Json(new { success = false, message = "Invalid data." });
+            return Json(new { success = false, message = "Dữ liệu không hợp lệ." });
         }
-
-        [HttpPost]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
     }
 }
