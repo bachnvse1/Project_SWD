@@ -17,7 +17,8 @@ builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
 builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
-
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+builder.Services.AddScoped<IRoomService, RoomService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

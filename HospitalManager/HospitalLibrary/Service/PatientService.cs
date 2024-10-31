@@ -47,5 +47,17 @@ namespace HospitalLibrary.Service
         {
             _patientRepository.RestorePatient(patientId);
         }
-    }
+        public void CreateHospitalAdmissionProcedure(Patient patient)
+        {
+            _patientRepository.CreateHospitalAdmissionProcedure(patient);
+                
+                
+        }
+        public int CountPatientsInRoom(int roomId) { 
+             return _patientRepository.CountPatientsInRoom(roomId);
+        }
+
+
+
+}
 }

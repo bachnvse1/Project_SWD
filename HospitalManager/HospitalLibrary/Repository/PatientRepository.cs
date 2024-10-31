@@ -60,5 +60,14 @@ namespace HospitalLibrary.Repository
                 _context.SaveChanges();
             }
         }
+        public void CreateHospitalAdmissionProcedure( Patient patient )
+        {
+            _context.Patients.Add(patient);
+            _context.SaveChanges();
+        }
+        public int CountPatientsInRoom(int roomId)
+        {
+            return _context.Patients.Count(p => p.RoomId == roomId && p.IsDelete == false);
+        }
     }
 }
