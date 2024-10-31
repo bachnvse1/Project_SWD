@@ -59,5 +59,13 @@ namespace HospitalLibrary.Repository
             _context.SaveChanges();
             return true;
         }
+
+        public bool validateWorkSchedule(DateTime timeSlot, int patientId, int userId)
+        {
+            var existingSchedule = _context.WorkSchedules
+                    .FirstOrDefault(ws => ws.TimeSlot == timeSlot && ws.PatientId == patientId && ws.UserId == userId);
+            if (existingSchedule != null) return false;
+            return true;
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using HospitalLibrary.DataAccess;
 using HospitalLibrary.Repository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 
@@ -42,6 +43,11 @@ namespace HospitalLibrary.Service
             if (schedule == null) throw new ArgumentNullException(nameof(schedule));
             schedule.UpdateAt = DateTime.Now;
             return _workscheduleRepository.UpdateWorkSchedule(schedule);
+        }
+
+        public bool validateWorkSchedule(DateTime timeSlot, int patientId, int userId)
+        {
+            return _workscheduleRepository.validateWorkSchedule(timeSlot, patientId, userId);
         }
     }
 }
