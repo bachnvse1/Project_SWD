@@ -55,10 +55,9 @@ namespace HospitalManager.Controllers
                     UpdateAt = DateTime.Now
                 };
 
-                _context.Entry(workSchedule).State = EntityState.Modified;
-                var result = _context.SaveChanges() > 0;
+               var check = _workscheduleService.UpdateWorkSchedule(workSchedule);
 
-                if (result)
+                if (check)
                 {
                     return Json(new { success = true });
                 }
@@ -85,6 +84,12 @@ namespace HospitalManager.Controllers
                     return Json(new { success = false, message = "Một lịch làm việc đã tồn tại cho bệnh nhân và người dùng này vào khoảng thời gian đã chọn." });
                 }
 
+                var userAvailable = _userService.AvailableUsers(UserId);
+                if (userAvailable == null)
+                {
+                    return Json(new { success = false, message = "Người dùng không khả dụng" });
+                }
+
                 var idMax = _context.WorkSchedules.ToList().Select(x => x.ScheduleId).Max();
 
                 var workSchedule = new WorkSchedule
@@ -98,8 +103,7 @@ namespace HospitalManager.Controllers
                     CreatedBy = UserId,
                 };
 
-                _context.WorkSchedules.Add(workSchedule);
-                var result = _context.SaveChanges() > 0;
+                var result = _workscheduleService.AddWorkSchedule(workSchedule);
 
                 if (result)
                 {
