@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HospitalLibrary.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,8 @@ namespace HospitalLibrary.Repository
 {
     public interface IMedicalRecordRepository
     {
+        MedicalRecord GetMedicalRecordByPatientID(int PatientID);
+        void AddMedicalRecord(MedicalRecord record);
+        void UpdateMedicalRecord(MedicalRecord record);    
     }
 }

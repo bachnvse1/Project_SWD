@@ -1,4 +1,5 @@
 ﻿using HospitalLibrary.DataAccess;
+using HospitalLibrary.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,25 +10,29 @@ namespace HospitalLibrary.Service
 {
     public class MedicalRecordService : IMedicalRecordService
     {
-        private readonly DBContext _context;
-        public MedicalRecordService()
+        private readonly IMedicalRecordRepository _medicalRecordRepository;
+        public MedicalRecordService(IMedicalRecordRepository medicalRecordRepository)
         {
-            _context = new DBContext(); 
+            _medicalRecordRepository = medicalRecordRepository;
         }
-        public void AddMedicalRecord(MedicalRecord medicalRecord)
+        public MedicalRecord GetMedicalRecordByPatientID(int patientID)
         {
-            _context.MedicalRecords.Add(medicalRecord);
-            _context.SaveChanges();
+            return _medicalRecordRepository.GetMedicalRecordByPatientID(patientID);
         }
-
-        public void UpdateMedicalRecord(MedicalRecord medicalRecord)
+        public void AddMedicalRecord(MedicalRecord record)
         {
-            _context.MedicalRecords.Update(medicalRecord);
-            _context.SaveChanges();
+            record.CreatedAt = DateTime.Now;
+            _medicalRecordRepository.AddMedicalRecord(record);
         }
-        public MedicalRecord GetMedicalRecordByPatientId(int id)
+        public void UpdateMedicalRecord(MedicalRecord record)
         {
-            return _context.MedicalRecords.FirstOrDefault(m => m.MedicalRecordId == id);
+            record.CreatedAt = DateTime.Now;
+            _medicalRecordRepository.UpdateMedicalRecord(record);   
+        }
+        public bool checkExistMedicalRecord(int patientID)
+        {
+            if (_medicalRecordRepository.GetMedicalRecordByPatientID(patientID) != null) return false;
+            return true;
         }
     }
 }

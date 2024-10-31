@@ -28,10 +28,10 @@ namespace HospitalManager.Controllers
         }
         public IActionResult PatientDetail(int id)
         {
-            var patient = _patientServices.getPatientByID(id);
+            var patient = _patientServices.GetPatientById(id);
             if (patient == null) return NotFound();
 
-            var medicalRecord = _medicalRecordService.g(id) ?? new MedicalRecord { PatientId = id, Detail = "" };
+            var medicalRecord = _medicalRecordService.GetMedicalRecordByPatientID(id) ?? new MedicalRecord { PatientId = id, Detail = "" };
 
             var viewModel = new PatientDetailViewModel
             {
@@ -41,26 +41,8 @@ namespace HospitalManager.Controllers
 
             return View(viewModel);
         }
-
-        public IActionResult addMedicalRecord(int patientID)
-        {
-            var medicalRecord = new MedicalRecord
-            {
-                PatientId = patientID
-            };
-            return View(medicalRecord); 
-        }
-        public IActionResult AddMedicalRecord(MedicalRecord medicalRecord)
-        {
-            if (ModelState.IsValid)
-            {
-                // Add record to the database
-                _medicalRecordService.AddMedicalRecord(medicalRecord);
-                return RedirectToAction("PatientDetail", new { id = medicalRecord.PatientId });
-            }
-            return View(medicalRecord);
-        }
-
         
+
+
     }
 }

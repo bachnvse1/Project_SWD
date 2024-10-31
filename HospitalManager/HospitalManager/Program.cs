@@ -17,6 +17,11 @@ builder.Services.AddScoped<IWorkscheduleService, WorkscheduleService>();
 builder.Services.AddScoped<IWorkscheduleRepository, WorkscheduleRepository>();
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IPatientService, PatientService>();
+builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+
+
+
 
 var app = builder.Build();
 

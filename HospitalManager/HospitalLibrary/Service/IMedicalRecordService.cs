@@ -9,8 +9,9 @@ namespace HospitalLibrary.Service
 {
     public interface IMedicalRecordService
     {
-        public void AddMedicalRecord(MedicalRecord medicalRecord);
-        public void UpdateMedicalRecord(MedicalRecord medicalRecord);
-        public MedicalRecord GetMedicalRecordByPatientId(int id);
+        MedicalRecord GetMedicalRecordByPatientID(int patientID);
+        void AddMedicalRecord(MedicalRecord record);
+        void UpdateMedicalRecord(MedicalRecord record);
+        public bool checkExistMedicalRecord(int patientID);
     }
 }
