@@ -28,13 +28,12 @@
     <div class="sidebar">
         <button class="add-doctor-btn">+</button>
         <ul>
-            <li>Users</li>
+            <li><a asp-controller="User" asp-action="Index">User</a></li>
             <li><a asp-controller="Receptionist" asp-action="Index">Receptionist</a></li>
-            <li><a asp-controller="WorkSchedule" asp-action="Index">Create treatment</a></li>
-            <li>Hospitals</li>
-            <li>Notice</li>
-            <li><a asp-controller="WorkSchedule" asp-action="Index">Work Schedule</a></li>
-            <Li><a asp-controller="Patient" asp-action="Index">Patient</a></Li>
+            <li><a asp-controller="TreatmentPlan" asp-action="Index">TreatmentPlan</a></li>
+            <li><a asp-controller="HospitalManager" asp-action="Index">Work Schedule</a></li>
+            <li><a asp-controller="Patient" asp-action="Index">Medical Record</a></li>
+            <li><a asp-controller="Patient" asp-action="Index1">Hospital Admission Procedure</a></li>
             <li>Help Center</li>
         </ul>
     </div>
