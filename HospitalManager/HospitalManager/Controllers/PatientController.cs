@@ -81,11 +81,6 @@ namespace HospitalManager.Controllers
             return View(); // Re-display the form if there are validation errors
         }
 
-        // Display all patients  
-        public IActionResult GetAllPatients()
-        {
-            IEnumerable<Patient> patients = _patientServices.GetAllPatients();
-
         public IActionResult Index1()
         {
             var patients = _patientServices.GetAllPatients();

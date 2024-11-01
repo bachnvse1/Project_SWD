@@ -74,6 +74,14 @@ body {
             transition: color 0.3s;
         }
 
+        .sidebar ul li a{
+            margin-bottom: 15px;
+            color: rgb(182, 211, 162); /* Darker green */
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
             .sidebar ul li:hover {
                 color: #1a5e3f;
             }
