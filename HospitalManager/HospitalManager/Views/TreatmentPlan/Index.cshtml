@@ -63,8 +63,11 @@
 
                                     <div class="col-md-6 patient-info">
                                         <label class="form-label">Date of Birth</label>
-                                        <input type="date" class="form-control" value="@patient.DateOfBirth" readonly>
+                                        <input type="date" class="form-control"
+                                               value="@(patient.DateOfBirth.HasValue ? patient.DateOfBirth.Value.ToString("yyyy-MM-dd") : string.Empty)"
+                                               readonly>
                                     </div>
+
                                     <div class="col-md-6 patient-info">
                                         <label class="form-label">Gender</label>
                                         <input type="text" class="form-control" value="@patient.Gender" readonly>
