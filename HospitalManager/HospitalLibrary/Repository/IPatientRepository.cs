@@ -17,5 +17,6 @@ namespace HospitalLibrary.Repository
         void CreateHospitalAdmissionProcedure(Patient patient);
         IEnumerable<Patient> SearchPatients(string searchname);
         Patient GetPatientServiceById(int? patientId);
+        IEnumerable<Patient> GetAllPatientsWithTreatmentPlans();
     }
 }

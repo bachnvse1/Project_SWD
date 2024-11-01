@@ -1,0 +1,311 @@
+﻿@using HospitalLibrary.DataAccess
+@*
+
+*@
+@{
+    <link rel="stylesheet" href="~/css/createTreatmentPlan.css" asp-append-version="true" />
+    var patients = ViewBag.patients as List<Patient>;
+
+}
+
+<h2>Treatment Plan Creator</h2>
+
+<body>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-success text-white">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Patient List</h5>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush">
+                            @foreach (var patient in patients)
+                            {
+                                <a href="#" class="list-group-item list-group-item-action" data-patient-id="@patient.PatientId">
+                                    <div class="d-flex justify-content-between align-items-center px-3">
+                                        <h6 class="mb-1">@patient.PatientName</h6>
+                                        <span class="badge bg-light text-primary">@patient.PatientName</span>
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    @foreach (var patient in patients)
+                    {
+                        <div class="detail-patients" data-patient-id="@patient.PatientId">
+                            <div class="card-header bg-success text-white ">
+                                <h5 class="mb-0">Patient Medical Record</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row g-3">
+
+
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">PatientName</label>
+                                        <input type="text" class="form-control" value="@patient.PatientName" readonly>
+                                    </div>
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">Phone</label>
+                                        <input type="text" class="form-control" value="@patient.Phone" readonly>
+                                    </div>
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">RoomId</label>
+                                        <input type="text" class="form-control" value="@patient.RoomId" readonly>
+                                    </div>
+                                @model Patient
+
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-control" value="@patient.DateOfBirth" readonly>
+                                    </div>
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">Gender</label>
+                                        <input type="text" class="form-control" value="@patient.Gender" readonly>
+                                    </div>
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">HealthInsurance</label>
+                                        <input type="text" class="form-control" value="@patient.HealthInsurance" readonly>
+                                    </div>
+                                    <div class="col-md-6 patient-info">
+                                        <label class="form-label">HealthCondition</label>
+                                        <input type="text" class="form-control" value="@patient.HealthCondition" readonly>
+                                    </div>
+                                    @if (!(patient.TreatmentPlans != null && patient.TreatmentPlans.FirstOrDefault() != null))
+                                    {
+                                    <div class="text-center mt-4  create-treatment">
+                                        <button type="button" class="btn btn-success btn-lg create-treatment-btn" data-bs-toggle="modal" data-bs-target="#treatmentModal">
+                                            Create Treatment Plan
+                                        </button>
+                                    </div>
+                                    }
+
+                                </div>
+                            </div>
+                            @if (patient.TreatmentPlans != null && patient.TreatmentPlans.FirstOrDefault() != null)
+                            {
+                                <div class="card-header bg-success text-white ">
+                                    <h5 class="mb-0">TreatmentPlans</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+
+
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">MedicineSection</label>
+                                            <input type="text" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().MedicineSection" readonly>
+                                        </div>
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">TreatmentMethodSection</label>
+                                            <input type="text" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().TreatmentMethodSection" readonly>
+                                        </div>
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">Diagnosis</label>
+                                            <input type="text" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().Diagnosis" readonly>
+                                        </div>
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">StartDate</label>
+                                            <input type="datetime" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().StartDate" readonly>
+                                        </div>
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">EndDate</label>
+                                            <input type="datetime" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().EndDate" readonly>
+                                        </div>
+                                        <div class="col-md-6 patient-info">
+                                            <label class="form-label">DoctorInCharge</label>
+                                            <input type="text" class="form-control" value="@patient.TreatmentPlans.FirstOrDefault().DoctorInCharge" readonly>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            }
+
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const firstPatient = document.querySelector('.list-group-item');
+                const patientInfoInputs = document.querySelectorAll('.detail-patients');
+                const takeId = document.querySelector('.take-id-patient');
+                if (firstPatient) {
+                    firstPatient.classList.add('active', 'bg-success');
+                    const firstPatientId = firstPatient.getAttribute('data-patient-id');
+                    takeId.value = firstPatientId;
+                    patientInfoInputs.forEach(input => {
+                        const inputPatientId = input.getAttribute('data-patient-id');
+                        if (inputPatientId === firstPatientId) {
+                            input.style.display = 'block';
+                        } else {
+                            input.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        </script>
+        <script>
+            const listItems = document.querySelectorAll('.list-group-item');
+            const patientInfoInputs = document.querySelectorAll('.detail-patients');
+
+
+            listItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const selectedPatientId = this.getAttribute('data-patient-id');
+                    var takeId = document.querySelector('.take-id-patient');
+                    console.log(selectedPatientId);
+                    console.log(takeId);
+
+                    if (selectedPatientId != null) { takeId.value = selectedPatientId; }
+
+
+                    listItems.forEach(li => {
+                        li.classList.remove('active', 'bg-success');
+                    });
+                    this.classList.add('active', 'bg-success');
+
+                    patientInfoInputs.forEach(input => {
+                        const inputPatientId = input.getAttribute('data-patient-id');
+                        if (inputPatientId === selectedPatientId) {
+                            input.style.display = 'block';
+
+                        } else {
+                            input.style.display = 'none';
+                        }
+                    });
+
+
+                });
+            });
+        </script>
+
+        <div class="modal fade" id="treatmentModal" tabindex="-1" aria-labelledby="treatmentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <form id="treatmentForm" class="needs-validation" novalidate method="post" action="/TreatmentPlan/Create">
+                        <div class="modal-header bg-success text-white">
+                            <h5 class="modal-title" id="treatmentModalLabel">Create Treatment Plan</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label class="form-label">Diagnosis</label>
+                                    <input type="text" name="Diagnosis" class="form-control" required>
+                                    <div class="invalid-feedback">Please provide a diagnosis.</div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Medicine</label>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <div class="medicine-group">
+                                            <div class="input-group">
+                                                <select name="MedicineSection" class="form-select" required>
+                                                    <option value="">Select Medicine</option>
+                                                    <option value="panadol">Panadol Extra</option>
+                                                    <option value="amoxicillin">Amoxicillin</option>
+                                                    <option value="coversyl">Coversyl</option>
+                                                    <option value="setaflu">Seta Flu</option>
+                                                </select>
+                                                <button type="button" class="btn btn-success add-medicine"><i class="bi bi-plus">+</i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Treatment Method</label>
+                                    <div id="TreatmentMethodSection" class="d-flex flex-wrap gap-2">
+                                        <div class="treatment-method-group">
+                                            <div class="input-group">
+                                                <select name="TreatmentMethodSection" class="form-select" required>
+                                                    <option value="">Select Treatment Method</option>
+                                                    <option value="blood">Blood Test</option>
+                                                    <option value="bone">Bone Test</option>
+                                                    <option value="scan">Internal Organs Scan</option>
+                                                </select>
+                                                <button type="button" class="btn btn-success add-treatment-method"><i class="bi bi-plus">+</i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <label class="form-label">Doctor in Charge</label>
+                                    <div id="DoctorInCharge" class="d-flex flex-wrap gap-2">
+                                        <div class="doctor-group">
+                                            <div class="input-group">
+                                                <select name="DoctorInCharge" class="form-select" required>
+                                                    <option value="">Select Doctor</option>
+                                                    <option value="jackson">Jackson Wang</option>
+                                                    <option value="daniel">Daniel Anh</option>
+                                                    <option value="tom">Tom Cruise</option>
+                                                    <option value="toni">Toni Kroos</option>
+                                                </select>
+                                                <button type="button" class="btn btn-success add-doctor"><i class="bi bi-plus">+</i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" name="StartDate" id="StartDate" class="form-control" required>
+                                    <div class="invalid-feedback">Please select a start date.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">End Date</label>
+                                    <input type="date" name="EndDate" id="EndDate" class="form-control" required>
+                                    <div class="invalid-feedback">Please select an end date.</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">TreatmentTime</label>
+                                    <input type="date" name="TreatmentTime" id="TreatmentTime" class="form-control" required>
+                                    <div class="invalid-feedback">Please select an end date.</div>
+                                </div>
+                                <input type="hidden" name="PatientId" class="take-id-patient" id="PatientId" value="" />
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" form="treatmentForm" formaction="/TreatmentPlan/Create" class="btn btn-success">Save Treatment Plan</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                function createNewSection(template) {
+                    return template.cloneNode(true);
+                }
+
+                function setupAddButton(buttonClass, sectionId, groupClass) {
+                    document.querySelectorAll(buttonClass).forEach(button => {
+                        button.addEventListener("click", function () {
+                            const section = document.getElementById(sectionId);
+                            const template = section.querySelector(groupClass).cloneNode(true);
+                            template.querySelector("select").value = "";
+                            section.appendChild(template);
+                        });
+                    });
+                }
+
+                setupAddButton(".add-medicine", "medicineSection", ".medicine-group");
+                setupAddButton(".add-treatment-method", "treatmentMethodSection", ".treatment-method-group");
+                setupAddButton(".add-doctor", "doctorSection", ".doctor-group");
+            });
+        </script>
+</body>
+</html>
