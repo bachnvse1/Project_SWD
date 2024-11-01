@@ -10,11 +10,14 @@ public partial class TreatmentPlan
     public string MedicineSection { get; set; } = null!;
 
     public string? TreatmentMethodSection { get; set; }
+    public string? Diagnosis { get; set; }
 
     public string? DoctorInCharge { get; set; }
 
-    public DateTime TreatmentTime { get; set; }
+    public DateTime? TreatmentTime { get; set; }
 
+    public DateTime StartDate { get; set; }
+    public DateTime EndDate { get; set; }
     public int? UserId { get; set; }
 
     public int? ServiceId { get; set; }

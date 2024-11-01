@@ -16,5 +16,8 @@ namespace HospitalLibrary.Service
         Patient GetPatientServiceById(int? patientId);
         void MarkPatientAsDeleted(int? patientId);
         void CreateHospitalAdmissionProcedure(Patient patient);
+        IEnumerable<Patient> GetAllPatientsWithTreatmentPlans();
+
+
     }
 }

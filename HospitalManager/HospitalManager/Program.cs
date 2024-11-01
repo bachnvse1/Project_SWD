@@ -23,7 +23,8 @@ builder.Services.AddScoped<IRoomRepository, RoomRepository>();
 builder.Services.AddScoped<IRoomService, RoomService>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
-
+builder.Services.AddScoped<ITreatmentPlanRepository, TreatmentPlanRepository>();
+builder.Services.AddScoped<ITreatmentPlanService, TreatmentPlanService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +44,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=TreatmentPlan}/{action=Index}/{id?}");
 
 app.Run();

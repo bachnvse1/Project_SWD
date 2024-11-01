@@ -88,5 +88,10 @@ namespace HospitalLibrary.Repository
         {
             return _context.Patients .Include(p => p.Services).FirstOrDefault(p => p.PatientId == patientId);
         }
+        //customer by n.a
+        public IEnumerable<Patient> GetAllPatientsWithTreatmentPlans()
+        {
+            return _context.Patients.Include(x => x.TreatmentPlans).Where(p => p.IsDelete == false).ToList();
+        }
     }
 }

@@ -85,7 +85,8 @@ namespace HospitalManager.Controllers
         public IActionResult GetAllPatients()
         {
             IEnumerable<Patient> patients = _patientServices.GetAllPatients();
-
+            return View();
+        }
         public IActionResult Index1()
         {
             var patients = _patientServices.GetAllPatients();

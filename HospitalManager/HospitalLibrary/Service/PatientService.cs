@@ -78,5 +78,10 @@ namespace HospitalLibrary.Service
                 _patientRepository.UpdatePatient(patient);
             }
         }
+        //by n/a
+        public IEnumerable<Patient> GetAllPatientsWithTreatmentPlans()
+        {
+            return _patientRepository.GetAllPatientsWithTreatmentPlans();
+        }
     }
 }
